@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WebApplication.Models.Options;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
@@ -25,7 +26,6 @@ namespace WebApplication.Models.Services
 
         private readonly MongoDBStoreDatabaseSettings _mongoDBStoreDatabaseSettings;
         protected string CollectionName => _mongoDBStoreDatabaseSettings.UploadDataCollectionName;
-        //private IMongoDatabase database;
 
         public UploadDataService(IOptionsMonitor<MongoDBStoreDatabaseSettings> optionsMonitor)
         {
@@ -34,11 +34,7 @@ namespace WebApplication.Models.Services
             var database = client.GetDatabase(_mongoDBStoreDatabaseSettings.DatabaseName);
             _uploadData = database.GetCollection<UploadData>(CollectionName);
         }
-
-        public List<UploadData> Get() =>
-          _uploadData.Find(uploadData => true).ToList();
-        
-        public UploadData Get(string id) =>
+        public UploadData Get(Guid id) =>
             _uploadData.Find<UploadData>(uploadData => uploadData.Id == id).FirstOrDefault();
 
         public UploadData Add(UploadData uploadData)
@@ -47,7 +43,7 @@ namespace WebApplication.Models.Services
             return uploadData;
         }
 
-        public void Delete(string id) =>
+        public void Delete(Guid id) =>
             _uploadData.DeleteOne(uploadData => uploadData.Id == id);
     }
 }

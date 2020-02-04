@@ -1,14 +1,16 @@
 ﻿using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace WebApplication.Models
 {
+    [BsonIgnoreExtraElements]
     public class UploadData
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        [BsonRepresentation(BsonType.String)]
+        public Guid Id { get; set; }
 
         public string Code { get; set; }
 
@@ -18,13 +20,13 @@ namespace WebApplication.Models
         {
         }
 
-        public UploadData(string uploadId, string code)
+        public UploadData(Guid uploadId, string code)
         {
             Id = uploadId;
             Code = code;
         }
 
-        public UploadData(string uploadId, byte[] project)
+        public UploadData(Guid uploadId, byte[] project)
         {
             Id = uploadId;
             Project = project;

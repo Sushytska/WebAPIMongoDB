@@ -1,13 +1,13 @@
-﻿﻿using System;
+﻿using System;
 
 namespace WebApplication.Models.Services
 {
     public interface IUploadDataRepository
     {
-        UploadData Get(string id);
+        UploadData Get(Guid id);
 
         UploadData Add(UploadData uploadData);
 
-        void Delete(string id);
+        void Delete(Guid id);
     }
 }
